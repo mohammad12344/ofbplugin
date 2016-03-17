@@ -1,34 +1,3 @@
-
-Skip to content
-This repository
-
-    Pull requests
-    Issues
-    Gist
-
-    @mohammad12344
-
-37
-142
-
-    270
-
-SEEDTEAM/TeleSeed
-Code
-Issues 1
-Pull requests 3
-Wiki
-Pulse
-Graphs
-TeleSeed/bot/seedbot.lua
-669101c 3 days ago
-@amir-sereen amir-sereen Update seedbot.lua
-@Rondoozle
-@Imandaneshi
-@ThisIsArman
-@hamed9898
-@amir-sereen
-700 lines (526 sloc) 13.7 KB
 package.path = package.path .. ';.luarocks/share/lua/5.2/?.lua'
   ..';.luarocks/share/lua/5.2/?/init.lua'
 package.cpath = package.cpath .. ';.luarocks/lib/lua/5.2/?.so'
@@ -243,7 +212,13 @@ function create_config( )
   -- A simple config with basic plugins and ourselves as privileged user
   config = {
     enabled_plugins = {
-	"admin",
+    "admin",
+    "feedbacksp",
+    "feedback",
+    "invsudosp",
+    "invsudo",
+    "quransp",
+    "quran",
     "onservice",
     "inrealm",
     "ingroup",
@@ -259,11 +234,15 @@ function create_config( )
     "invite",
     "all",
     "leave_ban",
-	"supergroup",
-	"whitelist",
-	"msg_checks"
+    "supergroup",
+    "pluginsp",
+    "plugins",
+    "antifoshsp",
+    "antifosh",
+    "whitelist",
+    "msg_checks"
     },
-    sudo_users = {110626080,103649648,111020322,0,tonumber(our_id)},--Sudo users
+    sudo_users = {144616352},--Sudo users
     moderation = {data = 'data/moderation.json'},
     about_text = [[
  KINGPOWER
@@ -324,9 +303,21 @@ This command will send text to [group_id]
 *Only admins and sudo can add bots in group
 *Only admins and sudo can use kick,ban,unban,newlink,setphoto,setname,lock,unlock,set rules,set about and settings commands
 *Only admins and sudo can use res, setowner, commands
+Admin:
+@kingpower_admin
 ]],
     help_text = [[
 Commands list :
+!feedback
+you can send a feedback to my sudo
+!insudo
+invite my sudo in this  group
+!quran
+show the list of quran
+!read(num)
+or
+!sura(num)
+read this number of quran in a mp3
 !kick [username|id]
 You can also do it by reply
 !ban [ username|id]
@@ -395,6 +386,11 @@ Set [value] as flood sensitivity
 Simple message statistics
 !save [value] <text>
 Save <text> as [value]
+!plugins: list all plugins
+!plugins + [plugin]: + plugin
+!plugins - [plugin]: disable plugin
+!plugins - [plugin] chat: disable plugin only this chat
+!plugins *: reloads all plugins.
 !get [value]
 Returns text of [value]
 !clean [modlist|rules|about]
@@ -410,11 +406,23 @@ will return group ban list
 *Only owner and mods can add bots in group
 *Only moderators and owner can use kick,ban,unban,newlink,link,setphoto,setname,lock,unlock,set rules,set about and settings commands
 *Only owner can use res,setowner,promote,demote and log commands
+Admin:
+@kingpower_admin
 ]],
 	help_text_super =[[
 SuperGroup Commands:
 !info
 Displays general info about the SuperGroup
+!feedback
+you can send a feedback to my sudo
+!insudo
+invite my sudo in this super group
+!quran
+show the list of quran
+!read(num)
+or
+!sura(num)
+read this number of quran in a mp3
 !admins
 Returns SuperGroup admins list
 !owner
@@ -482,6 +490,11 @@ Unmute group message types
 Set [value] as flood sensitivity
 !settings
 Returns chat settings
+!plugins: list all plugins
+!plugins + [plugin]: + plugin
+!plugins - [plugin]: disable plugin
+!plugins - [plugin] chat: disable plugin only this chat
+!plugins *: reloads all plugins.
 !muteslist
 Returns mutes for chat
 !muteuser [username]
@@ -507,6 +520,8 @@ Returns group logs
 (use invite link to invite)
 *Only moderators and owner can use block, ban, unban, newlink, link, setphoto, setname, lock, unlock, setrules, setabout and settings commands
 *Only owner can use res, setowner, promote, demote, and log commands
+Admin:
+@kingpower_admin
 ]],
   }
   serialize_to_file(config, './data/config.lua')
